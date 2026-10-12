@@ -11,6 +11,8 @@ on:
 
 permissions:
   contents: write
+  # npm publish --provenance signs the package with the workflow's OIDC token.
+  id-token: write
 
 jobs:
   release:

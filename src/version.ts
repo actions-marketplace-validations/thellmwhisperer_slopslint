@@ -2,7 +2,7 @@
 
 
 /** slopslint's own version. */
-export const VERSION = "0.3.0";
+export const VERSION = "0.3.1";
 
 /** Detector name recorded in every canonical report. */
 export const DETECTOR_NAME = "jscpd";
