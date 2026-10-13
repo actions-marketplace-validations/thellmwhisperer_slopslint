@@ -124,6 +124,19 @@ duplication in production code cannot hide inside the test scope. Globs match
 basenames: a directory named `test_data/` keeps its production files in the
 production scope.
 
+For TypeScript projects, `defaults.format: typescript` measures both TypeScript
+(`.ts`, `.mts`, `.cts`) and TSX (`.tsx`), using each file's own linked tokenizer
+grammar. The scope glob must also select those files, for example
+`pattern: "**/*.{ts,tsx,mts,cts}"`. A `"**/*.ts"` glob still selects only `.ts`.
+Use `format: tsx` for a TSX-only scope configuration. Other formats retain their
+existing selection behavior; TypeScript scopes do not include `.jsx`.
+
+TSX participates in the same duplication counts, tombstones and ceilings as
+other selected files. Existing mixed scopes can therefore discover additional
+duplication after upgrading; fix those findings instead of raising ceilings or
+excluding TSX. This is duplication tokenization, not TypeScript type checking
+or a new semantic orphan analysis.
+
 An orphan scope enumerates exactly the configured files, directories, and
 JavaScript/TypeScript exports. The census then searches repository text for
 deterministic inbound evidence: static or dynamic imports, `require` calls,
