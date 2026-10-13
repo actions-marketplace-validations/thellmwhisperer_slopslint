@@ -125,7 +125,10 @@ export function selectFiles(
     suppressErrors: true,
   });
   return matched
-    .filter((path) => getFormatByFile(path) === defaults.format)
+    .filter((path) => {
+      const format = getFormatByFile(path);
+      return format === defaults.format || (defaults.format === "typescript" && format === "tsx");
+    })
     .sort();
 }
 
@@ -205,7 +208,7 @@ export function scanScope(
     sources += 1;
     totalLines += content.split("\n").length;
 
-    const maps = tokenizer.generateMaps(path, content, defaults.format, tokenizerOptions);
+    const maps = tokenizer.generateMaps(path, content, getFormatByFile(path)!, tokenizerOptions);
     for (const tokensMap of maps) {
       let open: OpenClone | null = null;
       let previousHit: Frame | null = null;
